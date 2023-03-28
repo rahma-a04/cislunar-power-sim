@@ -13,7 +13,7 @@ r = r_sunear*[0 1 0];
 
 %Define the end point of the function (only need to flip it around 180
 %degrees since it is symmetric) and the step size for the change in angle.
-thend = pi;
+thend = 2*pi;
 dth = 0.005;
 
 %Calculate average power at each delta angle step
@@ -36,7 +36,7 @@ plot(th,P)
 title('Power Average over Satellite Spin')
 xlabel('Angle of Incidence from the spinning Axis (rad)')
 ylabel('Average Power (W)')
-axis([0 pi 0 7])
+axis([0 2*pi 0 15])
 whitebg('k')
 
 end

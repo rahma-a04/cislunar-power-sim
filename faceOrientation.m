@@ -2,7 +2,7 @@ function [P_avg] = faceOrientation(r_sunsat)
 clc
 
 %The rate at which the satelite is spinning about it's spin axis
-w_s = 2*pi;
+w_s = pi;
 
 %Number of steps
 n = 1413;
@@ -160,85 +160,99 @@ phi3(isnan(phi3)) = 0;
 
 %Initialize percent area on each face exposed to the sun
 F1a = zeros(n,1);
-F1b = zeros(n,1);
+%F1b = zeros(n,1);
 F2 = zeros(n,1);
 F3a = zeros(n,1);
-F3b = zeros(n,1);
+%F3b = zeros(n,1);
 F4 = zeros(n,1);
 F5 = zeros(n,1);
 F6 = zeros(n,1);
+
 for j = 1:n
+
+%% Shadowing from 6U commented out
+
+    %If angle of incidence is less than 90
+%     if th1(j) < pi/2
+%         %Unshadowed side is shown
+%         F1b(j) = 1;
+%         %Find height of trapezoidal shadow
+%         h = 1.5*tan(th1(j));
+%         %Adjust height if it goes off the edge
+%         if h > 1
+%             h = 1;
+%         end
+%         %If clockwise angle is casting a shadow
+%         if pi < phi1(j) < 2*pi
+%             %Modify angle to be less than pi
+%             phi1(j) = mod(phi1(j),pi);
+%             %If angle is close to 90 so that it will cause the tan function
+%             %to give unreasonable results
+%             if abs(phi1(j)-pi/2) < 0.1;
+%                 %If so, approximate area as a rectangle
+%                 A_s = h;
+%             elseif tan(phi1(j))<h
+%                 A_s = 0.5*tan(phi1(j));
+%             else
+%                 %Area of trapezoidal shadow
+%                 a = 1 - h/tan(phi1(j));
+%                 A_s = 0.5*(a+1)*h;
+%             end
+%             %Percent Area that is exposed
+%             F1a(j) = 1 - A_s;
+%         else
+%             %if the clockwise angle does not throw a shadow, face is
+%             %exposed
+%             F1a(j) = 1;
+%         end
+%     end
+%     %If angle of incidence is less than 90
+%     if th3(j) < pi/2
+%         %Unshadowed side is shown
+%         F3b(j) = 1;
+%         %Find height of trapezoidal shadow
+%         h = tan(th3(j));
+%         %Adjust height if it goes off the edge
+%         if h > 1.5
+%             h = 1.5;
+%         end
+%         %If clockwise angle is casting a shadow
+%         if pi < phi3(j) < 2*pi
+%             %Modify angle to be less than pi
+%             phi3(j) = mod(phi3(j),pi);
+%             %If angle is close to 90 so that it will cause the tan function
+%             %to give unreasonable results
+%             if abs(phi3(j)-pi/2) < 0.1;
+%                 %If so, approximate area as a rectangle
+%                 A_s = h;
+%             elseif tan(phi3(j))<h
+%                 A_s = 0.5*tan(phi3(j));
+%             else
+%                 %Area of trapezoidal shadow
+%                 A_s = h/2*(2-h/tan(phi3(j)));
+%             end
+%             %Percent Area that is exposed
+%             F3a(j) = 1 - A_s/1.5;        
+%         else
+%             %if the clockwise angle does not throw a shadow, face is
+%             %exposed
+%             F3a(j) = 1;
+%         end
+%     end
     %If angle of incidence is less than 90
     if th1(j) < pi/2
-        %Unshadowed side is shown
-        F1b(j) = 1;
-        %Find height of trapezoidal shadow
-        h = 1.5*tan(th1(j));
-        %Adjust height if it goes off the edge
-        if h > 1
-            h = 1;
-        end
-        %If clockwise angle is casting a shadow
-        if pi < phi1(j) < 2*pi
-            %Modify angle to be less than pi
-            phi1(j) = mod(phi1(j),pi);
-            %If angle is close to 90 so that it will cause the tan function
-            %to give unreasonable results
-            if abs(phi1(j)-pi/2) < 0.1;
-                %If so, approximate area as a rectangle
-                A_s = h;
-            elseif tan(phi1(j))<h
-                A_s = 0.5*tan(phi1(j));
-            else
-                %Area of trapezoidal shadow
-                a = 1 - h/tan(phi1(j));
-                A_s = 0.5*(a+1)*h;
-            end
-            %Percent Area that is exposed
-            F1a(j) = 1 - A_s;
-        else
-            %if the clockwise angle does not throw a shadow, face is
-            %exposed
-            F1a(j) = 1;
-        end
-    end
-    %If angle of incidence is less than 90
-    if th3(j) < pi/2
-        %Unshadowed side is shown
-        F3b(j) = 1;
-        %Find height of trapezoidal shadow
-        h = tan(th3(j));
-        %Adjust height if it goes off the edge
-        if h > 1.5
-            h = 1.5;
-        end
-        %If clockwise angle is casting a shadow
-        if pi < phi3(j) < 2*pi
-            %Modify angle to be less than pi
-            phi3(j) = mod(phi3(j),pi);
-            %If angle is close to 90 so that it will cause the tan function
-            %to give unreasonable results
-            if abs(phi3(j)-pi/2) < 0.1;
-                %If so, approximate area as a rectangle
-                A_s = h;
-            elseif tan(phi3(j))<h
-                A_s = 0.5*tan(phi3(j));
-            else
-                %Area of trapezoidal shadow
-                A_s = h/2*(2-h/tan(phi3(j)));
-            end
-            %Percent Area that is exposed
-            F3a(j) = 1 - A_s/1.5;        
-        else
-            %if the clockwise angle does not throw a shadow, face is
-            %exposed
-            F3a(j) = 1;
-        end
+        %Face is exposed
+        F1a(j) = 1;
     end
     %If angle of incidence is less than 90
     if th2(j) < pi/2
         %Face is exposed
         F2(j) = 1;
+    end
+    %If angle of incidence is less than 90
+    if th3(j) < pi/2
+        %Face is exposed
+        F3a(j) = 1;
     end
     %If angle of incidence is less than 90
     if th4(j) < pi/2
@@ -264,24 +278,22 @@ end
 %be fit on each face
 
 %Area of one TASC cell
-A_cell = 2.277*10^(-4);  %m^2
+A_cell = 2665.33*10^(-6);  %m^2
 
 %Number of cells per face (CHANGE THESE)
-numCells1a = 15;
-numCells1b = 15;
-numCells2  = 15;
-numCells3a = 15;
-numCells3b = 15;
-numCells4  = 15;
-numCells5  = 15;
-numCells6  = 15;
+numCells1a = 12;
+numCells2  = 14;
+numCells3a = 12;
+numCells4  = 10;
+numCells5  = 14;
+numCells6  = 10;
 
 %Area of each face that is covered in solar panels
 A1a = A_cell*numCells1a;
-A1b = A_cell*numCells1b;
+%A1b = A_cell*numCells1b;
 A2  = A_cell*numCells2;
 A3a = A_cell*numCells3a;
-A3b = A_cell*numCells3b;
+%A3b = A_cell*numCells3b;
 A4  = A_cell*numCells4;
 A5  = A_cell*numCells5;
 A6  = A_cell*numCells6;
@@ -290,16 +302,16 @@ A6  = A_cell*numCells6;
 %DESIGNED)
 U = 0.1;  %m
 
-%Surface area of each face of the cubesat (DELETE THIS ONCE SOLAR PANELS
-%HAVE BEEN DESIGNED)
-A1a = 1*U^2;
-A1b = 0.5*U^2;
-A2  = 3*U^2;
-A3a = 1.5*U^2;
-A3b = 1.5*U^2;
-A4  = 1.5*U^2;
-A5  = 3*U^2;
-A6  = 3*U^2;
+% %Surface area of each face of the cubesat (DELETE THIS ONCE SOLAR PANELS
+% %HAVE BEEN DESIGNED)
+% A1a = 1*U^2;
+% %A1b = 0.5*U^2;
+% A2  = 3*U^2;
+% A3a = 1.5*U^2;
+% %A3b = 1.5*U^2;
+% A4  = 1.5*U^2;
+% A5  = 3*U^2;
+% A6  = 3*U^2;
 
 %Percentage of the faces that are covered by solar panels (DELETE THIS ONCE
 %SOLAR PANELS HAVE BEEN DESIGNED)
@@ -308,25 +320,25 @@ PerFace = 0.6;
 %% Now consider how much power is generated for the given angles
 
 %Maximum power produced by one of the TASC cells
-P_pan = 0.027*100^2; %W/cm^2
+P_pan = 0.039765*100^2; %W/cm^2
 
 %Power generated per face considering the angle of inceidence and the
 %clockwise angle
 P1a = P_pan.*F1a.*A1a.*costh1*PerFace;
-P1b = P_pan.*F1b.*A1b.*costh1*PerFace;
+%P1b = P_pan.*F1b.*A1b.*costh1*PerFace;
 P2  = P_pan.*F2.*A2.*costh2*PerFace;
 P3a = P_pan.*F3a.*A3a.*costh3*PerFace;
-P3b = P_pan.*F3b.*A3b.*costh3*PerFace;
+%P3b = P_pan.*F3b.*A3b.*costh3*PerFace;
 P4  = P_pan.*F4.*A4.*costh4*PerFace;
 P5  = P_pan.*F5.*A5.*costh5*PerFace;
 P6  = P_pan.*F6.*A6.*costh6*PerFace;
 
 %Initialize all variables for the average power per face
 P1a_avg = 0;
-P1b_avg = 0;
+%P1b_avg = 0;
 P2_avg  = 0;
 P3a_avg = 0;
-P3b_avg = 0;
+%P3b_avg = 0;
 P4_avg  = 0;
 P5_avg  = 0;
 P6_avg  = 0;
@@ -335,17 +347,17 @@ P6_avg  = 0;
 %two steps
 for j = 2:n
     P1a_avg = P1a_avg + (P1a(j) + P1a(j-1))/2*dt;
-    P1b_avg = P1b_avg + (P1b(j) + P1b(j-1))/2*dt;
+    %P1b_avg = P1b_avg + (P1b(j) + P1b(j-1))/2*dt;
     P2_avg  = P2_avg + (P2(j) + P2(j-1))/2*dt;
     P3a_avg = P3a_avg + (P3a(j) + P3a(j-1))/2*dt;
-    P3b_avg = P3b_avg + (P3b(j) + P3b(j-1))/2*dt;
+    %P3b_avg = P3b_avg + (P3b(j) + P3b(j-1))/2*dt;
     P4_avg  = P4_avg + (P4(j) + P4(j-1))/2*dt;
     P5_avg  = P5_avg + (P5(j) + P5(j-1))/2*dt;
     P6_avg  = P6_avg + (P6(j) + P6(j-1))/2*dt;
 end
 
 %Sum the power over all faces
-P_avg = (P1a_avg + P1b_avg + P2_avg + P3a_avg + P3b_avg + P4_avg + P5_avg + P6_avg)/(dt*n);
+P_avg = (P1a_avg + P2_avg + P3a_avg + P4_avg + P5_avg + P6_avg)/(dt*n);
 
 %Change show plot variable if you wish to see the power generated on each
 %face plotted individually
@@ -354,14 +366,14 @@ if showplot == 1
     figure(1)
     subplot(3,3,1),plot(tarray,P1a)
     title('Face 1a')
-    subplot(3,3,4),plot(tarray,P1b)
-    title('Face 1b')
+%     subplot(3,3,4),plot(tarray,P1b)
+%     title('Face 1b')
     subplot(3,3,7),plot(tarray,P2)
     title('Face 2')
     subplot(3,3,2),plot(tarray,P3a)
     title('Face 3a')
-    subplot(3,3,5),plot(tarray,P3b)
-    title('Face 3b')
+%     subplot(3,3,5),plot(tarray,P3b)
+%     title('Face 3b')
     subplot(3,3,8),plot(tarray,P4)
     title('Face 4')
     subplot(3,3,3),plot(tarray,P5)
