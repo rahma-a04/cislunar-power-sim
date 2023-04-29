@@ -1,4 +1,4 @@
-function [x, y, z] = satelliteAxes(z_input)
+function r_sunsat = satelliteAxes(z_input, r_sunearth)
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -9,7 +9,7 @@ z = z_input / norm(z_input);
 if z(1) ~= 0 || z(2) ~= 0
     v = [z(2), -z(1), 0];
 else
-    v = [0; z(3); -z(2)];
+    v = [0, z(3), -z(2)];
 end
 
 % Make v orthogonal to z
@@ -20,7 +20,18 @@ v = v / norm(v);
 x = cross(z, v);
 %find y : cross z with x (guarantees right-handed coordinate system)
 y = cross(z, x);
-disp(y);
+
+%final coordinate axes: each axis is a column of the resulting matrix
+axes = [x' y' z'];
+
+%make r_sunearth a column vector if necessary
+r_sunearth = reshape(r_sunearth, [], 1);
+
+%solve for b-coordinates of r_sunearth in terms of axes
+r_sunsat = axes \ r_sunearth;
+
+%note: idk how row and column vectors/matrices work in matlab TT this is
+%trial and er
 
 end
 
