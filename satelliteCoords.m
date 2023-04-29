@@ -46,12 +46,13 @@ v = v - dot(v, z) * z / dot(z, z);
 v = v / norm(v);
 
 %find x : take cross product of z with a random (non-parallel) vector
-x = cross(z, v);
+x = cross(v,z);
 %find y : cross z with x (guarantees right-handed coordinate system)
-y = cross(z, x);
+y = cross(z,x);
 
 %final coordinate axes: each axis is a column of the resulting matrix
 axes = [x' y' z'];
+disp(axes);
 
 %make r_sunearth a column vector if necessary
 r_sunearth = reshape(r_sunearth, [], 1);
