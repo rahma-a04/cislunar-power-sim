@@ -3,7 +3,7 @@ function [P_total] = faceOrientation(r_satsun)
  %      faceOrientation(r_satsun) calculates total power (P_total) given a
  %      specified position vector from the satellite to the sun (r_satsun) 
  %      using SMAD's formula for solar panel power generation (P =
- %      P0*Id*cos(theta) )
+ %      P0*Id*cos(theta)). Ignores satellite spin.
  %
  %      INPUTS:
  %      r_satsun    3 x 1 position vector from satellite to sun, as viewed
